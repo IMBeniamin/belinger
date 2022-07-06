@@ -5,7 +5,7 @@ import Dashboard from '@/views/DashboardView.vue'
 import Fatture from '@/views/FattureView.vue'
 import Impostazioni from '@/views/ImpostazioniView.vue'
 import Pagamenti from '@/views/PagamentiView.vue'
-
+import NotFound from '@/views/NotFound.vue'
 
 const routes = [
     {
@@ -37,7 +37,11 @@ const routes = [
         path: "/Impostazioni",
         name: "Impostazioni",
         component: Impostazioni
-    }
+    },
+    {
+        path: "/:catchAll(.*)",
+        component: NotFound,
+    },
 ];
 
 const router = createRouter({
