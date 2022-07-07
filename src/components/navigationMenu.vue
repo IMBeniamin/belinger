@@ -19,6 +19,9 @@ const handleClose = (key: string, keyPath: string[]) => {
 </script>
 
 <template>
+  <el-button @click="isCollapse = !isCollapse">
+    <IconMenu />
+  </el-button>
   <el-menu
     :collapse="isCollapse"
     :router="true"
