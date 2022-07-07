@@ -1,53 +1,44 @@
+<script lang="ts" setup>
+import { RouterView } from "vue-router";
+import NavigationMenu from "@/components/navigationMenu.vue";
+</script>
+
 <template>
   <div class="common-layout">
     <el-container>
       <template v-if="$route.name">
         <el-aside>
-          <el-menu
-              :collapse="isCollapse"
-              :router="true"
-              class="navbar"
-              default-active="1"
-              @close="handleClose"
-              @open="handleOpen"
-          >
-            <el-menu-item index="Abbonamenti" route="/Abbonamenti">
-              <template #title>Abbonamenti</template>
-            </el-menu-item>
-          </el-menu>
+          <NavigationMenu />
         </el-aside>
       </template>
-      <el-main
-          :style="{padding: 0}">
-        <router-view/>
+      <el-main :style="{ padding: 0 }">
+        <RouterView />
       </el-main>
     </el-container>
   </div>
-
-  <!--      <router-link to="/Abbonamenti">Abbonamenti</router-link>-->
-  <!--      <router-link to="/Amministrazione">Amministrazione</router-link>-->
-  <!--      <router-link to="/">Dashboard</router-link>-->
-  <!--      <router-link to="/Fatture">Fatture</router-link>-->
-  <!--      <router-link to="/Impostazioni">Impostazioni</router-link>-->
-  <!--      <router-link to="/Pagamenti">Pagamenti</router-link>-->
-  <!--      <router-link to="/Login">Login</router-link>-->
 </template>
 
-<script setup>
-import {ref} from 'vue'
+<style>
+@import "@/assets/base.css";
 
-const isCollapse = ref(true);
-const handleOpen = (key, keyPath) => {
-  console.log(key, keyPath)
+.common-layout {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
-const handleClose = (key, keyPath) => {
-  console.log(key, keyPath)
+
+.common-layout > .el-container {
+  flex: 1;
 }
-</script>
 
-<style scoped>
+.common-layout > .el-container > .el-aside {
+  width: 200px;
+  background-color: #fff;
+  border-right: 1px solid #ebeef5;
+}
 
-.navbar:not(.el-menu--collapse) {
-  min-height: 400px;
+.common-layout > .el-container > .el-main {
+  flex: 1;
+  padding: 0;
 }
 </style>
