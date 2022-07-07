@@ -1,10 +1,11 @@
-import { createWebHistory, createRouter } from 'vue-router'
+import {createWebHistory, createRouter} from 'vue-router'
 import Abbonamenti from '@/views/AbbonamentiView.vue'
 import Amministrazione from '@/views/AmministrazioneView.vue'
 import Dashboard from '@/views/DashboardView.vue'
 import Fatture from '@/views/FattureView.vue'
 import Impostazioni from '@/views/ImpostazioniView.vue'
 import Pagamenti from '@/views/PagamentiView.vue'
+import Login from '@/views/LoginView.vue'
 import NotFound from '@/views/NotFound.vue'
 
 const routes = [
@@ -37,6 +38,11 @@ const routes = [
         path: "/Impostazioni",
         name: "Impostazioni",
         component: Impostazioni
+    },
+    {
+        path: "/Login",
+        name: "Login",
+        component: Login
     },
     {
         path: "/:catchAll(.*)",
