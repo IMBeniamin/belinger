@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <body style="margin: 0; padding: 0;">
   <div>
     <svg fill="none" height="837" viewBox="0 0 1123 837" width="1123" xmlns="http://www.w3.org/2000/svg">
       <rect fill="black" height="837" width="1123"/>
@@ -153,8 +153,8 @@
     </svg>
   </div>
   <div class="text">
-    <h1>Errore 404</h1>
-    <h2>Impossibile lanciare:</h2>
+    <h1>404</h1>
+    <h2>Impossibile decollare:</h2>
     <h3>Pagina non trovata! - torna <a href="/">indietro</a>!</h3>
   </div>
   </body>
@@ -171,7 +171,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Fira+Mono:wght@500&display=swap');
 
 body {
-  height: 95vh;
+  height: 100vh;
   background: #000000;
   text-align: center;
   color: #E0E0E0;
