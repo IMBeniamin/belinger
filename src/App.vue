@@ -9,22 +9,31 @@ import Button from "primevue/button";
 import NavigationMenu from "@/components/navigationMenu.vue";
 
 const visibleLeft = ref(true);
+const expanded = ref(false);
+const log = console.log;
 </script>
 
 <template>
   <template v-if="$route.name">
     <div class="container">
       <Sidebar
+        id="sidebar"
+        ref="sidebar"
         v-model:visible="visibleLeft"
+        :class="{
+          'p-sidebar-sm': !visibleLeft.value,
+          'p-sidebar-md': visibleLeft.value,
+        }"
         :dismissable="true"
         :modal="true"
-        class="p-sidebar-sm"
       >
-        <h3>Left Sidebar</h3>
         <Button
-          class="w-5 h-5 bg-white"
+          class="w-10 h-10"
           icon="pi pi-arrow-right"
-          @click="visibleLeft = !visibleLeft"
+          @click="
+            log(expanded);
+            expanded = !expanded;
+          "
         />
       </Sidebar>
       <NavigationMenu />
@@ -35,10 +44,20 @@ const visibleLeft = ref(true);
   </div>
 </template>
 
+<script lang="ts"></script>
+
 <style>
-@import "@/assets/main.css";
+@import "@/assets/base.css";
 
 .p-sidebar {
-  background-color: red;
+  background-color: blue;
+}
+
+.p-sidebar-left.p-sidebar-sm {
+  width: 3rem;
+}
+
+.p-sidebar-left.p-sidebar-md {
+  width: 20rem;
 }
 </style>
