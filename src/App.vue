@@ -16,26 +16,26 @@ const log = console.log;
 <template>
   <template v-if="$route.name">
     <div class="container">
-      <Sidebar
-        id="sidebar"
-        ref="sidebar"
-        v-model:visible="visibleLeft"
-        :class="{
-          'p-sidebar-sm': !visibleLeft.value,
-          'p-sidebar-md': visibleLeft.value,
-        }"
-        :dismissable="true"
-        :modal="true"
-      >
-        <Button
-          class="w-10 h-10"
-          icon="pi pi-arrow-right"
-          @click="
-            log(expanded);
-            expanded = !expanded;
-          "
-        />
-      </Sidebar>
+      <!--      <Sidebar-->
+      <!--        id="sidebar"-->
+      <!--        ref="sidebar"-->
+      <!--        v-model:visible="visibleLeft"-->
+      <!--        :class="{-->
+      <!--          'p-sidebar-sm': !visibleLeft.value,-->
+      <!--          'p-sidebar-md': visibleLeft.value,-->
+      <!--        }"-->
+      <!--        :dismissable="true"-->
+      <!--        :modal="true"-->
+      <!--      >-->
+      <!--        <Button-->
+      <!--          class="w-10 h-10"-->
+      <!--          icon="pi pi-arrow-right"-->
+      <!--          @click="-->
+      <!--            log(expanded);-->
+      <!--            expanded = !expanded;-->
+      <!--          "-->
+      <!--        />-->
+      <!--      </Sidebar>-->
       <NavigationMenu />
     </div>
   </template>
