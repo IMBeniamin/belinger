@@ -6,10 +6,8 @@
 
 <script>
 export default {
-  name: "LoginView"
-}
+  name: "LoginView",
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
