@@ -1,12 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
-import dashboard from "@/views/DashboardView.vue";
-import notFound from "@/views/NotFound.vue";
 
 const routes = [
   {
     path: "/",
     name: "dashboard",
-    component: dashboard,
+    component: () => import("@/views/DashboardView.vue"),
   },
   {
     path: "/abbonamenti",
@@ -22,6 +20,11 @@ const routes = [
     path: "/fatture",
     name: "fatture",
     component: import("@/views/FattureView.vue"),
+  },
+  {
+    path: "/ricevute",
+    name: "ricevute",
+    component: import("@/views/RicevuteView.vue"),
   },
   {
     path: "/pagamenti",
@@ -40,7 +43,7 @@ const routes = [
   },
   {
     path: "/:catchAll(.*)",
-    component: notFound,
+    component: import("@/views/NotFound.vue"),
   },
 ];
 

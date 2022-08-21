@@ -1,13 +1,11 @@
 <template>
-  <div/>
+  <div />
 </template>
 
 <script>
 export default {
-  name: "PagamentiView"
-}
+  name: "PagamentiView",
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
