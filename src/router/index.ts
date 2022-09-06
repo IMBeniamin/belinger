@@ -13,7 +13,7 @@ const routes = [
   },
   {
     path: "/amministrazione",
-    name: "ammistrazione",
+    name: "amministrazione",
     component: import("@/views/AmministrazioneView.vue"),
   },
   {

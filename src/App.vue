@@ -6,6 +6,9 @@ import NavigationMenu from "@/components/navigationMenu.vue";
   <template v-if="$route.name">
     <NavigationMenu />
   </template>
+  <template v-else>
+    <router-view />
+  </template>
 </template>
 
 <script lang="ts"></script>
