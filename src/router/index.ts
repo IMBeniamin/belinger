@@ -14,36 +14,36 @@ const routes = [
   {
     path: "/amministrazione",
     name: "amministrazione",
-    component: import("@/views/AmministrazioneView.vue"),
+    component: () => import("@/views/AmministrazioneView.vue"),
   },
   {
     path: "/fatture",
     name: "fatture",
-    component: import("@/views/FattureView.vue"),
+    component: () => import("@/views/FattureView.vue"),
   },
   {
     path: "/ricevute",
     name: "ricevute",
-    component: import("@/views/RicevuteView.vue"),
+    component: () => import("@/views/RicevuteView.vue"),
   },
   {
     path: "/pagamenti",
     name: "pagamenti",
-    component: import("@/views/PagamentiView.vue"),
+    component: () => import("@/views/PagamentiView.vue"),
   },
   {
     path: "/impostazioni",
     name: "impostazioni",
-    component: import("@/views/ImpostazioniView.vue"),
+    component: () => import("@/views/ImpostazioniView.vue"),
   },
   {
     path: "/login",
     name: "login",
-    component: import("@/views/LoginView.vue"),
+    component: () => import("@/views/LoginView.vue"),
   },
   {
     path: "/:catchAll(.*)",
-    component: import("@/views/NotFound.vue"),
+    component: () => import("@/views/NotFound.vue"),
   },
 ];
 

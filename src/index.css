@@ -6,3 +6,6 @@ body {
     display: flex;
     justify-content: center;
 }
+#app {
+    flex: 1 1 100%;
+}

@@ -98,7 +98,7 @@ body {
   align-items: center;
   font-family: "Poppins", sans-serif;
   position: relative;
-  left: 6vmin;
+  left: 10vmin;
   text-align: center;
 }
 
