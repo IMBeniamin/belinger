@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from "vue";
 
 import Menubar from "primevue/menubar";
@@ -53,19 +53,19 @@ const toggle_profile = (event: Event) => {
 </script>
 
 <template>
-  <OverlayPanel ref="profile" id="profile_overlay" appendTo="body">
+  <OverlayPanel id="profile_overlay" ref="profile" appendTo="body">
     <ProfileOverlay />
   </OverlayPanel>
   <Menubar :model="items">
     <template #end>
       <Avatar
-        image="/avatars/rooster.svg"
-        class="mt-1.5 mr-2 cursor-pointer profile"
-        size="large"
-        shape="circle"
-        @click="toggle_profile"
-        aria:haspopup="true"
         aria-controls="profile_overlay"
+        aria:haspopup="true"
+        class="mt-1.5 mr-2 cursor-pointer profile"
+        image="./avatars/rooster.svg"
+        shape="circle"
+        size="large"
+        @click="toggle_profile"
       />
     </template>
   </Menubar>
