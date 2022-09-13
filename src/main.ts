@@ -6,6 +6,8 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 
 import PrimeVue from "primevue/config";
+import { createAuth0 } from "@auth0/auth0-vue";
+
 import "primevue/resources/themes/vela-blue/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
@@ -19,4 +21,11 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 app.use(PrimeVue);
+app.use(
+  createAuth0({
+    domain: "imben.eu.auth0.com",
+    client_id: "", // todo add in secure way
+    redirect_uri: window.location.origin,
+  })
+);
 app.mount("#app");
