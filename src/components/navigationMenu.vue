@@ -9,7 +9,9 @@ import OverlayPanel from "primevue/overlaypanel";
 
 import ProfileOverlay from "@/components/ProfileOverlay.vue";
 
-const { user, isAuthenticated } = useAuth0();
+const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
+// const login = () => loginWithRedirect();
+
 console.log(window.location.origin);
 console.log(user);
 
@@ -64,22 +66,25 @@ const toggle_profile = (event: Event) => {
 </script>
 
 <template>
+  <pre v-if="isLoading">Loading ...</pre>
+  <!--  <pre v-else>-->
   <OverlayPanel id="profile_overlay" ref="profile" appendTo="body">
     <ProfileOverlay />
   </OverlayPanel>
   <Menubar :model="items">
     <template #end>
-      <pre v-if="isAuthenticated">
+      <template v-if="isAuthenticated">
         <Avatar
-            aria-controls="profile_overlay"
-            aria:haspopup="true"
-            class="mt-1.5 mr-2 cursor-pointer profile"
-            image={{ shape="circle"
-            size="large"
-            user.picture}}
-            @click="toggle_profile"
+          :image="user.picture"
+          aria-controls="profile_overlay"
+          aria:haspopup="true"
+          class="mt-1.5 mr-2 cursor-pointer profile"
+          referrerpolicy="no-referrer"
+          shape="circle"
+          size="large"
+          @click="toggle_profile"
         />
-      </pre>
+      </template>
     </template>
   </Menubar>
   <router-view />

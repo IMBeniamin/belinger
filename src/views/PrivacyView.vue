@@ -1,3 +1,4 @@
+<script lang="ts" setup></script>
 <template>
   <div class="container">
     <h1>Privacy Policy for imben.it</h1>
@@ -206,6 +207,22 @@
   </div>
 </template>
 
-<script></script>
+<style scoped>
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
 
-<style scoped></style>
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+</style>
