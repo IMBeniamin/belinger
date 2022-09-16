@@ -24,7 +24,7 @@ app.use(PrimeVue);
 app.use(
   createAuth0({
     domain: "imben.eu.auth0.com",
-    client_id: "", // todo add in secure way
+    client_id: "CI3E4N1tdTdSB3LoXAixeCxuTYUH6MBk",
     redirect_uri: window.location.origin,
   })
 );

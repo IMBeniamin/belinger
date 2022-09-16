@@ -45,9 +45,14 @@ const routes = [
     component: () => import("@/views/ImpostazioniView.vue"),
   },
   {
+    path: "/privacy",
+    name: "privacy",
+    component: () => import("@/views/PrivacyView.vue"),
+  },
+  {
     path: "/authorize",
     name: "authorize",
-    component: () => import("@/views/LoginView.vue"),
+    component: () => import("@/views/AuthorizeView.vue"),
   },
   {
     path: "/:catchAll(.*)",
