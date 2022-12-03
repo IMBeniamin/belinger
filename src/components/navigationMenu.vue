@@ -9,7 +9,7 @@ import OverlayPanel from "primevue/overlaypanel";
 
 import ProfileOverlay from "@/components/ProfileOverlay.vue";
 
-const { loginWithRedirect, user, isAuthenticated, isLoading } = useAuth0();
+const { user, isAuthenticated, isLoading } = useAuth0();
 // const login = () => loginWithRedirect();
 
 console.log(window.location.origin);

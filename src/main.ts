@@ -25,7 +25,9 @@ app.use(
   createAuth0({
     domain: "imben.eu.auth0.com",
     client_id: "CI3E4N1tdTdSB3LoXAixeCxuTYUH6MBk",
-    redirect_uri: "https://imben.it/belinger/",
+    redirect_uri: import.meta.env.PROD
+      ? "https://imben.it/belinger/"
+      : "http://localhost:3000/belinger",
   })
 );
 app.mount("#app");

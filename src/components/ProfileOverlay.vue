@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 
-import axios from "axios";
-
 import Menu from "primevue/menu";
 import Button from "primevue/button";
 
