@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAuth0 } from "@auth0/auth0-vue";
+import { useLoginStore } from "@/stores/login";
 
 import { ref } from "vue";
 
@@ -9,12 +9,8 @@ import OverlayPanel from "primevue/overlaypanel";
 
 import ProfileOverlay from "@/components/ProfileOverlay.vue";
 
-const { user, isAuthenticated, isLoading } = useAuth0();
-// const login = () => loginWithRedirect();
-
-console.log(window.location.origin);
-console.log(user);
-
+const loginStore = ref(useLoginStore());
+const userPicture = loginStore.value.user?.picture;
 const items = ref([
   {
     label: "Dashboard",
@@ -66,16 +62,14 @@ const toggle_profile = (event: Event) => {
 </script>
 
 <template>
-  <pre v-if="isLoading">Loading ...</pre>
-  <!--  <pre v-else>-->
   <OverlayPanel id="profile_overlay" ref="profile" appendTo="body">
     <ProfileOverlay />
   </OverlayPanel>
   <Menubar :model="items">
     <template #end>
-      <template v-if="isAuthenticated">
+      <template v-if="loginStore.isLoggedIn">
         <Avatar
-          :image="user.picture"
+          :image="userPicture"
           aria-controls="profile_overlay"
           aria:haspopup="true"
           class="mt-1.5 mr-2 cursor-pointer profile"

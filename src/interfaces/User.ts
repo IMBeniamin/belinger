@@ -1,4 +1,6 @@
-export default interface User {
+import type Customer from "@/interfaces/Customer";
+
+export default interface User extends Customer {
   given_name: string;
   family_name: string;
   nickname: string;

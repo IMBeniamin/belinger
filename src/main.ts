@@ -19,6 +19,7 @@ import "./index.css";
 const app = createApp(App);
 
 app.use(createPinia());
+
 app.use(router);
 app.use(PrimeVue);
 app.use(
@@ -30,4 +31,5 @@ app.use(
       : "http://localhost:3000/belinger",
   })
 );
+
 app.mount("#app");
