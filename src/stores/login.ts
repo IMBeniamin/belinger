@@ -28,7 +28,7 @@ export const useLoginStore = () => {
           this.user = null;
         }
         if (isAuthenticated.value) {
-          axios.get(`${api.url}/customers`).then((users) => {
+          axios.get(`${api.url}/customers/`).then((users) => {
             console.log("users", users.data.data);
             const customer = users.data.data.find(
               (item: Customer) => item.email === user.value.email

@@ -24,7 +24,7 @@ export default {
   mounted() {
     axios
       // .get("https://belingapi.imben.it/api/v1/invoices")
-      .get(`${api.url}/invoices`)
+      .get(`${api.url}/invoices/`)
       .then((response) => {
         this.entries = response.data.data.filter((entry) => {
           return entry.customer === userStore.user?.ssn;
