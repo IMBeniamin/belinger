@@ -10,6 +10,9 @@ console.log(`user store`, userStore);
     <template v-if="userStore.isLoggedIn">
       <code>{{ userStore.user }}</code>
     </template>
+    <template v-else>
+      <code>Not logged in</code>
+    </template>
   </div>
 </template>
 

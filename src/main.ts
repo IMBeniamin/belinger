@@ -17,19 +17,18 @@ import router from "./router";
 import "./index.css";
 
 const app = createApp(App);
+export const pinia = createPinia();
+export const auth0_instance = createAuth0({
+  domain: "imben.eu.auth0.com",
+  client_id: "CI3E4N1tdTdSB3LoXAixeCxuTYUH6MBk",
+  redirect_uri: import.meta.env.PROD
+    ? "https://imben.it/belinger/"
+    : "http://localhost:3000/belinger",
+});
 
-app.use(createPinia());
-
+app.use(pinia);
 app.use(router);
 app.use(PrimeVue);
-app.use(
-  createAuth0({
-    domain: "imben.eu.auth0.com",
-    client_id: "CI3E4N1tdTdSB3LoXAixeCxuTYUH6MBk",
-    redirect_uri: import.meta.env.PROD
-      ? "https://imben.it/belinger/"
-      : "http://localhost:3000/belinger",
-  })
-);
+app.use(auth0_instance);
 
 app.mount("#app");

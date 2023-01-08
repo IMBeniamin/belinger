@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 import type User from "@/interfaces/User";
 import type Customer from "@/interfaces/Customer";
-import { useAuth0 } from "@auth0/auth0-vue";
 import { api } from "@/global/api";
 import axios from "axios";
+import { auth0_instance } from "@/main";
 
 export const useLoginStore = () => {
   const { isLoading, isAuthenticated, error, user, loginWithRedirect, logout } =
-    useAuth0();
+    auth0_instance;
   const innerStore = defineStore({
     id: "login",
     state: () => ({
