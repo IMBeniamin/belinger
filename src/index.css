@@ -1,11 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body {
-    display: flex;
-    justify-content: center;
-}
 #app {
     flex: 1 1 100%;
 }

@@ -65,23 +65,25 @@ const toggle_profile = (event: Event) => {
   <OverlayPanel id="profile_overlay" ref="profile" appendTo="body">
     <ProfileOverlay />
   </OverlayPanel>
-  <Menubar :model="items">
-    <template #end>
-      <template v-if="loginStore.isLoggedIn">
-        <Avatar
-          :image="userPicture"
-          aria-controls="profile_overlay"
-          aria:haspopup="true"
-          class="mt-1.5 mr-2 cursor-pointer profile"
-          referrerpolicy="no-referrer"
-          shape="circle"
-          size="large"
-          @click="toggle_profile"
-        />
+  <div class="flex flex-col overflow-scroll max-w-full">
+    <Menubar :model="items">
+      <template #end>
+        <template v-if="loginStore.isLoggedIn">
+          <Avatar
+            :image="userPicture"
+            aria-controls="profile_overlay"
+            aria:haspopup="true"
+            class="mt-1.5 mr-2 cursor-pointer profile"
+            referrerpolicy="no-referrer"
+            shape="circle"
+            size="large"
+            @click="toggle_profile"
+          />
+        </template>
       </template>
-    </template>
-  </Menubar>
-  <router-view />
+    </Menubar>
+    <router-view />
+  </div>
 </template>
 
 <style scoped>

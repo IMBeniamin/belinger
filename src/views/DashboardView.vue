@@ -6,7 +6,10 @@ console.log(`user store`, userStore);
 </script>
 
 <template>
-  <div>
+  <div
+    class="p-grid p-justify-center"
+    style="height: 100vh; align-items: center;"
+  >
     <template v-if="userStore.isLoggedIn">
       <code>{{ userStore.user }}</code>
     </template>

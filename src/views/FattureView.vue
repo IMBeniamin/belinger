@@ -1,113 +1,28 @@
-<script>
-export default {
-  setup() {
-    onMounted(() => {
-      customerService.value.getCustomersLarge().then((data) => {
-        customers.value = data;
-        customers.value.forEach(
-          (customer) => (customer.date = new Date(customer.date))
-        );
-        loading.value = false;
-      });
-    });
-    const customers = ref();
-    const selectedCustomers = ref();
-    const filters = ref({
-      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      name: {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-      },
-      "country.name": {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-      },
-      representative: { value: null, matchMode: FilterMatchMode.IN },
-      date: {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
-      },
-      balance: {
-        operator: FilterOperator.AND,
-        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-      },
-      status: {
-        operator: FilterOperator.OR,
-        constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-      },
-      activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
-      verified: { value: null, matchMode: FilterMatchMode.EQUALS },
-    });
-    const customerService = ref(new CustomerService());
-    const loading = ref(true);
-    const representatives = [
-      { name: "Amy Elsner", image: "amyelsner.png" },
-      { name: "Anna Fali", image: "annafali.png" },
-      { name: "Asiya Javayant", image: "asiyajavayant.png" },
-      { name: "Bernardo Dominic", image: "bernardodominic.png" },
-      { name: "Elwin Sharvill", image: "elwinsharvill.png" },
-      { name: "Ioni Bowcher", image: "ionibowcher.png" },
-      { name: "Ivan Magalhaes", image: "ivanmagalhaes.png" },
-      { name: "Onyama Limba", image: "onyamalimba.png" },
-      { name: "Stephen Shaw", image: "stephenshaw.png" },
-      { name: "XuXue Feng", image: "xuxuefeng.png" },
-    ];
-    const statuses = ref([
-      "unqualified",
-      "qualified",
-      "new",
-      "negotiation",
-      "renewal",
-      "proposal",
-    ]);
-    const formatDate = (value) => {
-      return value.toLocaleDateString("en-US", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      });
-    };
-    const formatCurrency = (value) => {
-      return value.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-      });
-    };
-    return {
-      customers,
-      filters,
-      loading,
-      representatives,
-      formatCurrency,
-      selectedCustomers,
-      formatDate,
-      statuses,
-    };
-  },
-};
-</script>
-
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
-
 import axios from "axios";
 
 import { useLoginStore } from "@/stores/login";
 
 import { api } from "@/global/api";
 import type Invoice from "@/interfaces/Invoice";
-
 import { FilterMatchMode, FilterOperator } from "primevue/api";
-import EntryCard from "@/components/EntryCard.vue";
-import ProgressSpinner from "primevue/progressspinner";
+
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import Button from "primevue/button";
+import InputText from "primevue/inputtext";
+import Dropdown from "primevue/dropdown";
+import Calendar from "primevue/calendar";
+import InputNumber from "primevue/inputnumber";
 
 const userStore = useLoginStore();
+const invoices = ref<Invoice[]>();
+const selectedInvoices = ref<Invoice[]>();
 console.log(`user store`, userStore);
-console.log("api", api);
-const invoices = ref([] as Invoice[]);
+
 onMounted(() => {
   axios
-    // .get("https://belingapi.imben.it/api/v1/invoices")
     .get(`${api.url}/invoices/`)
     .then((response) => {
       invoices.value = response.data.data.filter(
@@ -115,31 +30,84 @@ onMounted(() => {
           return entry.customer === userStore.user?.ssn;
         }
       );
+      loading.value = false;
     })
     .catch((error) => {
       console.log(error);
     });
 });
+const filters = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  id: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+  },
+  emission: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
+  },
+  expiry: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
+  },
+  amount: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+  },
+  status: {
+    operator: FilterOperator.OR,
+    constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+  },
+});
+const loading = ref(true);
+const statuses = ref(["paid", "new", "expired"]);
+const getStatus = (data: Invoice) => {
+  if (data.paid) {
+    return statuses.value[0];
+  } else if (data.expiry < new Date()) {
+    return "new";
+  } else {
+    return statuses.value[2];
+  }
+};
+
+const account_map = {
+  1: "https://upload.wikimedia.org/wikipedia/commons/7/75/Netflix_icon.svg",
+};
+
+const formatDate = (value: Date) => {
+  try {
+    return value.toLocaleDateString("it-IT", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  } catch (e) {
+    console.log(e);
+    return value;
+  }
+};
+const formatCurrency = (value: number) => {
+  return value.toLocaleString("it-IT", {
+    style: "currency",
+    currency: "EUR",
+  });
+};
 </script>
 
 <template>
   <div>
     <DataTable
       v-model:filters="filters"
-      v-model:selection="selectedCustomers"
-      :globalFilterFields="[
-        'name',
-        'country.name',
-        'representative.name',
-        'status',
-      ]"
+      v-model:selection="selectedInvoices"
+      :globalFilterFields="['id', 'emission', 'expiry', 'amount', 'status']"
       :loading="loading"
       :paginator="true"
       :rowHover="true"
       :rows="10"
       :rowsPerPageOptions="[10, 25, 50]"
-      :value="customers"
-      class="p-datatable-customers"
+      :value="invoices"
+      class="p-datatable-invoices"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
       dataKey="id"
       filterDisplay="menu"
@@ -148,7 +116,7 @@ onMounted(() => {
     >
       <template #header>
         <div class="flex justify-content-center align-items-center">
-          <h5 class="m-0">Customers</h5>
+          <h5 class="m-0">Invoices</h5>
           <span class="p-input-icon-left">
             <i class="pi pi-search" />
             <InputText
@@ -158,118 +126,68 @@ onMounted(() => {
           </span>
         </div>
       </template>
-      <template #empty> No customers found.</template>
-      <template #loading> Loading customers data. Please wait.</template>
+      <template #empty> No invoices found.</template>
+      <template #loading> Loading invoice data. Please wait.</template>
       <Column headerStyle="width: 3rem" selectionMode="multiple"></Column>
-      <Column field="name" header="Name" sortable style="min-width: 14rem">
+      <Column data-type="number" field="id" header="Id" :sortable="true">
         <template #body="{ data }">
-          {{ data.name }}
+          {{ data.id }}
         </template>
         <template #filter="{ filterModel }">
           <InputText
             v-model="filterModel.value"
             class="p-column-filter"
-            placeholder="Search by name"
-            type="text"
+            placeholder="Search by id"
+            type="number"
           />
         </template>
       </Column>
       <Column
-        field="country.name"
+        field="account"
         filterMatchMode="contains"
-        header="Country"
-        sortable
-        style="min-width: 14rem"
+        header="Account"
+        :sortable="false"
       >
-        <template #body="{ data }">
+        <template #body="{}">
           <img
-            src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png"
+            src="https://upload.wikimedia.org/wikipedia/commons/7/75/Netflix_icon.svg"
             style="vertical-align: middle"
             width="30"
+            alt="account"
           />
-          <span class="image-text">{{ data.country.name }}</span>
-        </template>
-        <template #filter="{ filterModel }">
-          <InputText
-            v-model="filterModel.value"
-            class="p-column-filter"
-            placeholder="Search by country"
-            type="text"
-          />
-        </template>
-      </Column>
-      <Column
-        :filterMenuStyle="{ width: '14rem' }"
-        :showFilterMatchModes="false"
-        filterField="representative"
-        header="Agent"
-        sortField="representative.name"
-        sortable
-        style="min-width: 14rem"
-      >
-        <template #body="{ data }">
-          <img
-            src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png"
-            style="vertical-align: middle"
-            width="30"
-          />
-          <span class="image-text">{{ data.representative.name }}</span>
-        </template>
-        <template #filter="{ filterModel }">
-          <div class="mb-3 font-bold">Agent Picker</div>
-          <MultiSelect
-            v-model="filterModel.value"
-            :options="representatives"
-            class="p-column-filter"
-            optionLabel="name"
-            placeholder="Any"
-          >
-            <template #option="slotProps">
-              <div class="p-multiselect-representative-option">
-                <img
-                  src="https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png"
-                  style="vertical-align: middle"
-                  width="30"
-                />
-                <span class="image-text">{{ slotProps.option.name }}</span>
-              </div>
-            </template>
-          </MultiSelect>
         </template>
       </Column>
       <Column
         dataType="date"
-        field="date"
-        header="Date"
-        sortable
-        style="min-width: 8rem"
+        field="emission"
+        header="Emission"
+        :sortable="true"
       >
         <template #body="{ data }">
-          {{ formatDate(data.date) }}
+          {{ formatDate(data.emission) }}
         </template>
         <template #filter="{ filterModel }">
           <Calendar
             v-model="filterModel.value"
-            dateFormat="mm/dd/yy"
-            placeholder="mm/dd/yyyy"
+            dateFormat="dd/mm/yy"
+            placeholder="dd/mm/yyyy"
           />
         </template>
       </Column>
       <Column
         dataType="numeric"
-        field="balance"
-        header="Balance"
-        sortable
-        style="min-width: 8rem"
+        field="amount"
+        header="Amount"
+        :sortable="true"
       >
         <template #body="{ data }">
-          {{ formatCurrency(data.balance) }}
+          {{ formatCurrency(data.amount) }}
         </template>
         <template #filter="{ filterModel }">
           <InputNumber
             v-model="filterModel.value"
-            currency="USD"
-            locale="en-US"
+            currency="EUR"
+            locale="it-IT"
             mode="currency"
           />
         </template>
@@ -278,12 +196,11 @@ onMounted(() => {
         :filterMenuStyle="{ width: '14rem' }"
         field="status"
         header="Status"
-        sortable
-        style="min-width: 10rem"
+        :sortable="true"
       >
         <template #body="{ data }">
-          <span :class="'customer-badge status-' + data.status">{{
-            data.status
+          <span :class="'customer-badge status-' + getStatus(data)">{{
+            getStatus(data)
           }}</span>
         </template>
         <template #filter="{ filterModel }">
@@ -307,30 +224,26 @@ onMounted(() => {
           </Dropdown>
         </template>
       </Column>
-      <Column
-        :showFilterMatchModes="false"
-        field="activity"
-        header="Activity"
-        sortable
-        style="min-width: 10rem"
-      >
+      <Column dataType="date" field="expiry" header="Expiry" :sortable="true">
         <template #body="{ data }">
-          <ProgressBar :showValue="false" :value="data.activity" />
+          {{ formatDate(data.expiry) }}
         </template>
         <template #filter="{ filterModel }">
-          <Slider v-model="filterModel.value" class="m-3" range></Slider>
-          <div class="flex align-items-center justify-content-between px-2">
-            <span>{{ filterModel.value ? filterModel.value[0] : 0 }}</span>
-            <span>{{ filterModel.value ? filterModel.value[1] : 100 }}</span>
-          </div>
+          <Calendar
+            v-model="filterModel.value"
+            dateFormat="dd/mm/yy"
+            placeholder="dd/mm/yyyy"
+          />
         </template>
       </Column>
       <Column
+        v-if="userStore.user?.ssn === 'RGIMML02P14Z129I'"
         bodyStyle="text-align: center; overflow: visible"
         headerStyle="width: 4rem; text-align: center"
+        :sortable="false"
       >
         <template #body>
-          <Button icon="pi pi-cog" type="button"></Button>
+          <Button icon="pi pi-cog" style="color: white" type="button"></Button>
         </template>
       </Column>
     </DataTable>
@@ -341,19 +254,21 @@ onMounted(() => {
 img {
   vertical-align: middle;
 }
+.status-paid {
+  background-color: #1d6c20;
+}
+
+.status-new {
+  background-color: #d6b500;
+}
+
+.status-expired {
+  background-color: #d50000;
+}
 
 ::v-deep(.p-paginator) {
   .p-paginator-current {
     margin-left: auto;
-  }
-}
-
-::v-deep(.p-progressbar) {
-  height: 0.5rem;
-  background-color: #d8dadc;
-
-  .p-progressbar-value {
-    background-color: #607d8b;
   }
 }
 
@@ -365,7 +280,7 @@ img {
   }
 }
 
-::v-deep(.p-datatable.p-datatable-customers) {
+::v-deep(.p-datatable.p-datatable-invoices) {
   .p-datatable-header {
     padding: 1rem;
     text-align: left;
@@ -382,6 +297,7 @@ img {
 
   .p-datatable-tbody > tr > td {
     cursor: auto;
+    margin: 0.2rem;
   }
 
   .p-dropdown-label:not(.p-placeholder) {
